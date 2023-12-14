@@ -9,8 +9,9 @@ import utils.DriverHelper;
 
 public class LoginSteps {
 
-    WebDriver driver= DriverHelper.getDriver();
-    LoginPage loginPage=new LoginPage(driver);
+
+        WebDriver driver= DriverHelper.getDriver();
+        LoginPage loginPage=new LoginPage(driver);
 
     @When("the user navigates to the {string}")
     public void the_user_navigates_to_the(String url) {
@@ -24,4 +25,5 @@ public class LoginSteps {
     public void the_user_validate_the_title(String title) {
         Assert.assertEquals(driver.getTitle(), title);
     }
+
 }
