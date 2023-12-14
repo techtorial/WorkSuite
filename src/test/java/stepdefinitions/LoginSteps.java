@@ -9,6 +9,7 @@ import utils.DriverHelper;
 
 public class LoginSteps {
 
+
         WebDriver driver= DriverHelper.getDriver();
         LoginPage loginPage=new LoginPage(driver);
 
@@ -24,4 +25,5 @@ public class LoginSteps {
     public void the_user_validate_the_title(String title) {
         Assert.assertEquals(driver.getTitle(), title);
     }
+
 }

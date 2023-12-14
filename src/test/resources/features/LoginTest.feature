@@ -4,4 +4,3 @@ Feature: Login Test
     When the user navigates to the "https://techtorialwork.com/worksuit/public/login"
     Then the user enter email "dev_techtorial@example.com" password "123456789"
     Then the user validate the title "Dashboard"
-
