@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.BrowserUtils;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,6 +63,30 @@ public class ProductsPage {
 
     @FindBy(xpath = "//td[4]//a")
     List<WebElement> allProducts;
+
+    @FindBy(xpath = "//button[@data-id='category_id']")
+    WebElement productCategoryMenu;
+
+    @FindBy(xpath = "//span[contains(text(),'Lifting and Material')]")
+    WebElement handlingEquipmentButton;
+
+    @FindBy(xpath = "//button[@data-id='sub_category']")
+    WebElement productSubCategoryMenu;
+
+    @FindBy(xpath = "//span[contains(text(),'Mobile Cranes')]")
+    WebElement mobileCranesButton;
+
+    @FindBy(xpath = "//a[@id='dropdownMenuLink-18']")
+    WebElement actionButton;
+
+    @FindBy(xpath = "//*[@id=\"row-18\"]/td[7]/div/div/div/a[1]")
+    WebElement viewButton;
+
+    @FindBy(xpath = "//p[contains(text(),'Lifting and Material Handling Equipment')]")
+    WebElement productCategoryInViewMenu;
+
+    @FindBy(xpath = "//p[contains(text(),'Mobile Cranes')]")
+    WebElement productSubCategoryInViewMenu;
 
 
     public void clickProductAndAddProductButtons() throws InterruptedException {
@@ -123,12 +146,45 @@ public class ProductsPage {
 
     public void validationOfTheProduct(String product) throws InterruptedException {
         List<String> expectedInformation = Arrays.asList(product);
-        for (int i =0; i<allProducts.size();i++){
+        for (int i = 0; i < allProducts.size(); i++) {
             Thread.sleep(2000);
-            Assert.assertTrue(BrowserUtils.getText(allProducts.get(i)), expectedInformation.contains("Truck-Mounted" + " "+"Crane"));
+            Assert.assertTrue(BrowserUtils.getText(allProducts.get(i)), expectedInformation.contains("Truck-Mounted" + " " + "Crane"));
         }
     }
 
+    public void clickProducts() throws InterruptedException {
+        productsButton.click();
+        Thread.sleep(2000);
+    }
+
+    public void selectCategoryFromTheList()  {
+        productCategoryMenu.click();
+
+        handlingEquipmentButton.click();
+
+    }
+
+    public void selectSubCategoryFromTheList() {
+
+        productSubCategoryMenu.click();
+        mobileCranesButton.click();
+    }
+
+    public void selectViewFromMenu() throws InterruptedException {
+        actionButton.click();
+        viewButton.click();
+        Thread.sleep(2000);
+    }
+
+    public String validationProductDetails() {
+        return BrowserUtils.getText(productCategoryInViewMenu);
+
+    }
+
+    public String validateSubProductDetails() {
+        return BrowserUtils.getText(productSubCategoryInViewMenu);
+
+    }
 
 }
 
