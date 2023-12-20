@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features",//feature files
         glue = "", //step definitions
-        dryRun = false,//getting snips without executing
+        dryRun = false,//getting snips without executing and updating test. 
         plugin = {"pretty","html:target/uiReport.html","rerun:target/uiFailedTests.txt"}
 )
 public class CucumberTestRunner {
