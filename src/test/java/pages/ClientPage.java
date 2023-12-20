@@ -18,6 +18,7 @@ public class ClientPage {
         PageFactory.initElements(driver, this);
     }
 
+    int defaultClientsCount;
     @FindBy(xpath = "//a[@title='Clients']")
     WebElement clientsButton;
 
@@ -60,7 +61,18 @@ public class ClientPage {
     @FindBy(xpath = "//h5")
     List<WebElement> allClients;
 
-    @FindBy(xpath ="//button[@data-id='quick-action-type']" )
+    @FindBy(xpath = "//input[@id='search-text-field']")
+    WebElement searchBox;
+
+    @FindBy(xpath = "//button[@id='reset-filters']")
+    WebElement clearButton;
+
+    @FindBy(xpath = "//td[4]")
+    List<WebElement> allEmails;
+
+    @FindBy(xpath = "//tr")
+    List<WebElement> clients;
+    @FindBy(xpath = "//button[@data-id='quick-action-type']")
     WebElement actionButton;
 
     @FindBy(xpath = "/html/body/div[1]/section/div[4]/div[2]/div/div[1]/div/table/tbody/tr[1]/td[1]/input")
@@ -75,6 +87,16 @@ public class ClientPage {
     @FindBy(xpath = "//button[contains(text(),'Yes, delete')]")
     WebElement deleteConfirmationButton;
 
+
+    public void clickClientsButton() throws InterruptedException {
+        clientsButton.click();
+        Thread.sleep(2000);
+    }
+
+    public void countInitialClients() {
+        defaultClientsCount = clients.size();
+        //System.out.println("Clients: "+defaultClientsCount);
+    }
 
     public void clickClientsButtonAndAddClient() throws InterruptedException {
         clientsButton.click();
@@ -131,16 +153,43 @@ public class ClientPage {
         checkBox.click();
         actionButton.click();
         Thread.sleep(2000);
-        deleteFromOption.click();
-        applyButton.click();
+       // List<String> expectedInformation = Arrays.asList(lastName);
+      //  for (int i = 0; i < allClients.size(); i++) {
+      //      Thread.sleep(2000);
+      //      Assert.assertTrue(BrowserUtils.getText(allClients.get(i)), expectedInformation.contains("John" + " " + "Doe"));
+      //  }
+    }
+
+    public void enterTextInSearchBox(String searchText) {
+        searchBox.sendKeys(searchText);
+    }
+
+    public void verifyName(String searchText) throws InterruptedException {
         Thread.sleep(2000);
-        deleteConfirmationButton.click();
+        List<String> expectedInformation = Arrays.asList(searchText);
+        for (int i = 0; i < allClients.size(); i++) {
+            //System.out.println(BrowserUtils.getText(allClients.get(i)));
+            Thread.sleep(2000);
+            Assert.assertTrue(BrowserUtils.getText(allClients.get(i)), expectedInformation.contains(searchText));
 
+        }
+    }
 
+    public void verifyEmail(String searchText) throws InterruptedException {
+        Thread.sleep(2000);
+        List<String> expectedInformation = Arrays.asList(searchText);
+        for (int i = 0; i < allEmails.size(); i++) {
+            //System.out.println(BrowserUtils.getText(allEmails.get(i)));
+            Thread.sleep(2000);
+            Assert.assertTrue(BrowserUtils.getText(allEmails.get(i)), expectedInformation.contains(searchText));
+        }
+    }
 
+    public void clearSearchBox() {
+        clearButton.click();
+    }
 
+    public void verifyDefaultClients() {
+        assert clients.size() == defaultClientsCount : "Expected: " + defaultClientsCount + "  " + clients.size();
     }
 }
-
-
-
