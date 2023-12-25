@@ -8,9 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.BrowserUtils;
 
-import javax.naming.Name;
 import java.util.*;
-import java.util.logging.XMLFormatter;
 
 public class ClientPage {
 
@@ -60,6 +58,9 @@ public class ClientPage {
     @FindBy(xpath = "//h5")
     List<WebElement> allClients;
 
+    @FindBy(xpath = "(//h5)[1]")
+    WebElement firstClientName;
+
     @FindBy(xpath ="//button[@data-id='quick-action-type']" )
     WebElement actionButton;
 
@@ -75,18 +76,28 @@ public class ClientPage {
     @FindBy(xpath = "//button[contains(text(),'Yes, delete')]")
     WebElement deleteConfirmationButton;
 
+    @FindBy(xpath = "//li[@class=\"accordionItem closeIt\"]/a/span")
+    List<WebElement> homeMenuButton;
 
-    public void clickClientsButtonAndAddClient() throws InterruptedException {
-        clientsButton.click();
-        Thread.sleep(2000);
+    @FindBy(xpath = "//*[@id=\"table-actions\"]")
+    WebElement clientsOptions;
+
+
+
+    public void addClient(String clientOptions){
         addClientButton.click();
-        Thread.sleep(2000);
+        if (clientsOptions.getText().equals(clientOptions)){
+            clientsOptions.click();
+        }
     }
 
-    public void userInformation(io.cucumber.datatable.DataTable dataTable) {
+
+
+    public void userInformation(io.cucumber.datatable.DataTable dataTable) throws InterruptedException {
 
         List<Map<String, String>> userData = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> userDataMap : userData) {
+            Thread.sleep(2000);
             clientName.sendKeys(userDataMap.get("Name"));
             emailAddress.sendKeys(userDataMap.get("Email"));
             phoneNumber.sendKeys(userDataMap.get("Phone number"));
@@ -119,13 +130,13 @@ public class ClientPage {
         Thread.sleep(2000);
     }
 
-//    public void validationOfNewClient(String Name) {
-//    List<String> expectedInformation = Arrays.asList(Name);
-//    for (int i = 0; i<allClients.size(); i++){
-//        Assert.assertTrue(BrowserUtils.getText(allClients.get(i)), expectedInformation.contains(Name));
-//    }
-//
-//    }
+    public void validationOfNewClient(String expectedName) {
+
+    String actualName=BrowserUtils.getText(firstClientName);
+
+           Assert.assertTrue("Client name is not matching", expectedName.equals(actualName));
+
+    }
 
     public void removingClientFromTheList() throws InterruptedException {
         checkBox.click();
