@@ -29,6 +29,7 @@ public class AddNewClientSteps {
     }
 
     @Then("the user enters personal information by map")
+
     public void the_user_enters_personal_information_by_map(io.cucumber.datatable.DataTable dataTable) throws InterruptedException {
         clientPage.userInformation(dataTable);
     }

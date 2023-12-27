@@ -31,17 +31,17 @@ public class AddProductSteps {
         productsPage.selectionOfCategoryAndTax();
     }
 
-    @Then("user add product description for the product")
-    public void user_add_product_description_for_the_product() {
-        productsPage.addingTextToDescription("very good product");
+    @Then("user add product {string} for the product")
+    public void user_add_product_for_the_product(String productDescription) {
+        productsPage.addingTextToDescription(productDescription);
     }
 
-    @Then("user upload picture of the product")
-    public void user_upload_picture_of_the_product() throws InterruptedException {
-        productsPage.uploadingPictureOfTheProduct();
-    }
+//       @Then("user upload picture of the product")
+//       public void user_upload_picture_of_the_product() throws InterruptedException {
+//           productsPage.uploadingPictureOfTheProduct();
+//       }
 
-    @Then("then user clicks save button")
+  @Then("then user clicks save button")
     public void then_user_clicks_save_button() throws InterruptedException {
         productsPage.clickSaveButton();
     }

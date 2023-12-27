@@ -124,17 +124,17 @@ public class ProductsPage {
     }
 
     public void selectionOfCategoryAndTax() throws InterruptedException {
-        Thread.sleep(2000);
+
         productCategorySelect.click();
-        Thread.sleep(2000);
+
         productCategory.click();
-        Thread.sleep(2000);
+
         productSubCategorySelect.click();
-        Thread.sleep(2000);
+
         productSubCategory.click();
-        Thread.sleep(2000);
+
         checkBoxCanPurchase.click();
-        Thread.sleep(2000);
+
         tax.click();
         Thread.sleep(2000);
         taxSearchBar.sendKeys("Federal Tax");

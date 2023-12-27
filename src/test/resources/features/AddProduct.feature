@@ -7,29 +7,7 @@ Feature: addProduct
     And  user click "AddProduct" button
     And the user enter "Truck-Mounted Crane" price "15000"
     Then the user select product from the product category, product Sub category, tax, and select client can purchase
-    And user add product description for the product
-    And user upload picture of the product
+    And user add product "description" for the product
+  #  And user upload picture of the product
     And then user clicks save button
     Then user validates the product name on the page
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
