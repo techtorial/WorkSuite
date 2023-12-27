@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pages.ClientPage;
+import pages.HomePage;
 import utils.DriverHelper;
 
 import java.util.List;
@@ -15,14 +16,21 @@ public class AddNewClientSteps {
 
     WebDriver driver = DriverHelper.getDriver();
     ClientPage clientPage = new ClientPage(driver);
+    HomePage homePage = new HomePage(driver);
 
-    @Then("the user clicks Clients and add client button")
-    public void the_user_clicks_clients_and_add_client_button() throws InterruptedException {
-        clientPage.clickClientsButtonAndAddClient();
+    @Then("the user clicks {string} from main menu")
+    public void the_user_clicks_from_main_menu(String buttonName) throws InterruptedException {
+        homePage.clickMainMenu(buttonName);
+    }
+
+    @Then("user click {string} button")
+    public void user_click_button(String addClient) {
+        clientPage.addClient(addClient);
     }
 
     @Then("the user enters personal information by map")
-    public void the_user_enters_personal_information_by_map(io.cucumber.datatable.DataTable dataTable) {
+
+    public void the_user_enters_personal_information_by_map(io.cucumber.datatable.DataTable dataTable) throws InterruptedException {
         clientPage.userInformation(dataTable);
     }
 
@@ -49,8 +57,8 @@ public class AddNewClientSteps {
         clientPage.validationOfNewClient(expectedName);
     }
 
-    @Then("user delete created cli1ent after verification")
-    public void user_delete_created_cli1ent_after_verification() throws InterruptedException {
+    @Then("user delete created client after verification")
+    public void user_delete_created_client_after_verification() throws InterruptedException {
         clientPage.removingClientFromTheList();
     }
 

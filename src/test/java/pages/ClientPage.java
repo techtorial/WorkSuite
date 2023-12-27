@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.BrowserUtils;
 
+
 import javax.naming.Name;
 import java.util.*;
 import java.util.logging.XMLFormatter;
@@ -61,6 +62,10 @@ public class ClientPage {
     @FindBy(xpath = "//h5")
     List<WebElement> allClients;
 
+
+    @FindBy(xpath = "(//h5)[1]")
+    WebElement firstClientName;
+  
     @FindBy(xpath = "//input[@id='search-text-field']")
     WebElement searchBox;
 
@@ -98,17 +103,42 @@ public class ClientPage {
         //System.out.println("Clients: "+defaultClientsCount);
     }
 
-    public void clickClientsButtonAndAddClient() throws InterruptedException {
-        clientsButton.click();
-        Thread.sleep(2000);
+    @FindBy(xpath ="//button[@data-id='quick-action-type']" )
+    WebElement actionButton;
+
+    @FindBy(xpath = "/html/body/div[1]/section/div[4]/div[2]/div/div[1]/div/table/tbody/tr[1]/td[1]/input")
+    WebElement checkBox;
+
+    @FindBy(xpath = "//span[contains(text(),'Delete')]")
+    WebElement deleteFromOption;
+
+    @FindBy(xpath = "//button[@id='quick-action-apply']")
+    WebElement applyButton;
+
+    @FindBy(xpath = "//button[contains(text(),'Yes, delete')]")
+    WebElement deleteConfirmationButton;
+
+    @FindBy(xpath = "//li[@class=\"accordionItem closeIt\"]/a/span")
+    List<WebElement> homeMenuButton;
+
+    @FindBy(xpath = "//*[@id=\"table-actions\"]")
+    WebElement clientsOptions;
+
+
+
+    public void addClient(String clientOptions){
         addClientButton.click();
-        Thread.sleep(2000);
+        if (clientsOptions.getText().equals(clientOptions)){
+            clientsOptions.click();
+        }
     }
 
-    public void userInformation(io.cucumber.datatable.DataTable dataTable) {
+
+    public void userInformation(io.cucumber.datatable.DataTable dataTable) throws InterruptedException {
 
         List<Map<String, String>> userData = dataTable.asMaps(String.class, String.class);
         for (Map<String, String> userDataMap : userData) {
+            Thread.sleep(2000);
             clientName.sendKeys(userDataMap.get("Name"));
             emailAddress.sendKeys(userDataMap.get("Email"));
             phoneNumber.sendKeys(userDataMap.get("Phone number"));
@@ -140,6 +170,24 @@ public class ClientPage {
         saveButton.click();
         Thread.sleep(2000);
     }
+
+
+    public void validationOfNewClient(String expectedName) {
+
+    String actualName=BrowserUtils.getText(firstClientName);
+
+           Assert.assertTrue("Client name is not matching", expectedName.equals(actualName));
+
+    }
+
+    public void removingClientFromTheList() throws InterruptedException {
+        checkBox.click();
+        actionButton.click();
+        Thread.sleep(2000);
+        deleteFromOption.click();
+        applyButton.click();
+        Thread.sleep(2000);
+        deleteConfirmationButton.click();
 
 //    public void validationOfNewClient(String Name) {
 //    List<String> expectedInformation = Arrays.asList(Name);
@@ -193,3 +241,6 @@ public class ClientPage {
         assert clients.size() == defaultClientsCount : "Expected: " + defaultClientsCount + "  " + clients.size();
     }
 }
+
+
+
