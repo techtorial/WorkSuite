@@ -103,21 +103,6 @@ public class ClientPage {
         //System.out.println("Clients: "+defaultClientsCount);
     }
 
-    @FindBy(xpath ="//button[@data-id='quick-action-type']" )
-    WebElement actionButton;
-
-    @FindBy(xpath = "/html/body/div[1]/section/div[4]/div[2]/div/div[1]/div/table/tbody/tr[1]/td[1]/input")
-    WebElement checkBox;
-
-    @FindBy(xpath = "//span[contains(text(),'Delete')]")
-    WebElement deleteFromOption;
-
-    @FindBy(xpath = "//button[@id='quick-action-apply']")
-    WebElement applyButton;
-
-    @FindBy(xpath = "//button[contains(text(),'Yes, delete')]")
-    WebElement deleteConfirmationButton;
-
     @FindBy(xpath = "//li[@class=\"accordionItem closeIt\"]/a/span")
     List<WebElement> homeMenuButton;
 
@@ -188,24 +173,6 @@ public class ClientPage {
         applyButton.click();
         Thread.sleep(2000);
         deleteConfirmationButton.click();
-
-//    public void validationOfNewClient(String Name) {
-//    List<String> expectedInformation = Arrays.asList(Name);
-//    for (int i = 0; i<allClients.size(); i++){
-//        Assert.assertTrue(BrowserUtils.getText(allClients.get(i)), expectedInformation.contains(Name));
-//    }
-//
-//    }
-
-    public void removingClientFromTheList() throws InterruptedException {
-        checkBox.click();
-        actionButton.click();
-        Thread.sleep(2000);
-       // List<String> expectedInformation = Arrays.asList(lastName);
-      //  for (int i = 0; i < allClients.size(); i++) {
-      //      Thread.sleep(2000);
-      //      Assert.assertTrue(BrowserUtils.getText(allClients.get(i)), expectedInformation.contains("John" + " " + "Doe"));
-      //  }
     }
 
     public void enterTextInSearchBox(String searchText) {
