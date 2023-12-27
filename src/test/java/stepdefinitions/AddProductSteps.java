@@ -36,10 +36,10 @@ public class AddProductSteps {
         productsPage.addingTextToDescription("very good product");
     }
 
-//    @Then("user upload picture of the product")
-//    public void user_upload_picture_of_the_product() throws InterruptedException {
-//        productsPage.uploadingPictureOfTheProduct();
-//    }
+    @Then("user upload picture of the product")
+    public void user_upload_picture_of_the_product() throws InterruptedException {
+        productsPage.uploadingPictureOfTheProduct();
+    }
 
     @Then("then user clicks save button")
     public void then_user_clicks_save_button() throws InterruptedException {

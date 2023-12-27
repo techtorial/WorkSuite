@@ -23,8 +23,6 @@ public class ProductsPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(xpath = "//*[@id=\"table-actions\"]")
-    WebElement productOptions;
 
     @FindBy(xpath = "//*[@id=\"table-actions\"]/a")
     WebElement addProductButton;
@@ -59,7 +57,7 @@ public class ProductsPage {
     @FindBy(xpath = "//textarea[@name='description']")
     WebElement descriptionField;
 
-    @FindBy(xpath = "//*[@id=\"file-upload-dropzone-product\"]/input")
+    @FindBy(xpath = "//*[@id=\"file-upload-dropzone-product\"]")
     WebElement uploadFileButton;
 
     @FindBy(xpath = "//button[@id=\"save-product\"]")
@@ -92,6 +90,24 @@ public class ProductsPage {
 
     @FindBy(xpath = "//*[@id=\"product-detail-section\"]/div/div/div/div[2]/div/div/div[7]/p[2]")
     WebElement productDetailsSubCategory;
+
+    @FindBy(xpath = "//button[@id='add-category']")
+    WebElement addCategoryButton;
+
+    @FindBy(xpath = "//input[@id='category_name']")
+    WebElement newCategoryName;
+
+    @FindBy(xpath = "//*[@id=\"myModal\"]/div/div/div[3]/a")
+    WebElement cancelCategoryButton;
+
+    @FindBy(xpath = "//*[@id=\"save-category\"]")
+    WebElement saveCategoryButton;
+
+    @FindBy(xpath = "//*[@id=\"save-product-form\"]/div/div[1]/div/div/div[3]/div/div[1]/button")
+    WebElement categoryButton;
+
+    @FindBy(xpath = "/html/body/div[6]/div/div/div/div/form/div/div[1]/div/div/div[3]/div/div[1]/div/div[2]/ul/li")
+    List<WebElement> categories;
 
 
     public void clickAddProductButtons() throws InterruptedException {
@@ -134,13 +150,12 @@ public class ProductsPage {
 
     }
 
-//    public void uploadingPictureOfTheProduct() throws InterruptedException {
-//        Thread.sleep(2000);
-//
-//
-//        uploadFileButton.sendKeys("src/test/resources/crane.webp");
-//
-//    }
+    public void uploadingPictureOfTheProduct() throws InterruptedException {
+        Thread.sleep(2000);
+
+        uploadFileButton.sendKeys("src/test/resources/crane.jpg");
+
+    }
 
     public void clickSaveButton() throws InterruptedException {
         Thread.sleep(2000);
@@ -207,7 +222,48 @@ public class ProductsPage {
     }
 
 
-}
+    public void clickAddCategoryButton() throws InterruptedException {
+        Thread.sleep(3000);
+        addCategoryButton.click();
+        Thread.sleep(3000);
+    }
+
+
+    public void categoryName(String name) {
+        newCategoryName.sendKeys(name);
+    }
+
+    public void saveNewCategory(String buttonName) throws InterruptedException {
+        List<WebElement> webElementsList = new ArrayList<>();
+        webElementsList.add(saveCategoryButton);
+        webElementsList.add(cancelCategoryButton);
+        for (WebElement option : webElementsList) {
+            if (option.getText().equals(buttonName)) {
+                option.click();
+                Thread.sleep(5000);
+                break;
+            }
+        }
+    }
+
+
+    public void validateCreatedCategory(String expectedName) throws InterruptedException {
+        categoryButton.click();
+        boolean categoryFaund = false;
+        for (WebElement option1 : categories) {
+            if (option1.getText().equals(expectedName)){
+                categoryFaund = true;
+                break;
+            }
+
+            }
+        Assert.assertTrue("Product Category is not matching", categoryFaund);
+        }
+    }
+
+
+
+
 
 
 
