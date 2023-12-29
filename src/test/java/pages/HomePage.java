@@ -16,9 +16,21 @@ public class HomePage {
     @FindBy(xpath = "//li[@class=\"accordionItem closeIt\"]/a/span")
     List<WebElement> homeMenuButton;
 
+    @FindBy(xpath = "/html/body/aside/div[2]/div[2]/ul/li[1]/div/a")
+    List<WebElement> dashboardSubCategories;
+
     public void clickMainMenu(String buttonName){
         for (WebElement el:homeMenuButton){
             System.out.println(el.getText());
+            if (el.getText().equals(buttonName)){
+                el.click();
+                break;
+            }
+        }
+    }
+
+    public void clickDashboardSubCategory(String buttonName){
+        for (WebElement el:dashboardSubCategories){
             if (el.getText().equals(buttonName)){
                 el.click();
                 break;
