@@ -1,18 +1,15 @@
 package pages;
 
 import org.junit.Assert;
-import org.junit.rules.Timeout;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.BrowserUtils;
 
 import java.io.File;
-import java.time.Duration;
+
 import java.util.*;
 
 
@@ -108,6 +105,24 @@ public class ProductsPage {
 
     @FindBy(xpath = "/html/body/div[6]/div/div/div/div/form/div/div[1]/div/div/div[3]/div/div[1]/div/div[2]/ul/li")
     List<WebElement> categories;
+
+    @FindBy(xpath = "//td[@contenteditable='true']")
+    List<WebElement> categoryAddedList;
+
+    @FindBy(xpath = "//button[@id='add-sub-category']")
+    WebElement addSubCategoryButton;
+
+    @FindBy(xpath = "//*[@id=\"createProjectCategory\"]/div/div[1]/div/div/button")
+    WebElement categoryNameInSubCategoryDropDownMenu;
+
+    @FindBy(xpath = "/html/body/div[3]/div/div/div[2]/form/div/div[1]/div/div/div/div[2]/ul/li")
+    List<WebElement> categoriesInSubCategory;
+
+    @FindBy(xpath = "//input[@id='category_name']")
+    WebElement subCategoryName;
+
+    @FindBy(xpath = "//td[contains(text(),'Standard Dump Trucks')]")
+    WebElement addedSubCategoryName;
 
 
     public void clickAddProductButtons() throws InterruptedException {
@@ -251,15 +266,70 @@ public class ProductsPage {
         categoryButton.click();
         boolean categoryFaund = false;
         for (WebElement option1 : categories) {
-            if (option1.getText().equals(expectedName)){
+            if (option1.getText().equals(expectedName)) {
                 categoryFaund = true;
                 break;
             }
 
-            }
+        }
         Assert.assertTrue("Product Category is not matching", categoryFaund);
+    }
+
+
+    public void validateCategoryAddedToTheList(String actualCategory) {
+        boolean categoryFound = false;
+        for (WebElement option2 : categoryAddedList) {
+            if (option2.getText().equals(actualCategory)) {
+                categoryFound = true;
+                break;
+            }
+        }
+
+        Assert.assertTrue("Product Category is not matching", categoryFound);
+        cancelCategoryButton.click();
+
+    }
+
+
+    public void selectingCategory(String category) {
+
+        for (WebElement actualCategory : categories) {
+            if (actualCategory.getText().equals(category)) {
+                actualCategory.click();
+                break;
+
+            }
         }
     }
+
+    public void clickingAddSubCategory() throws InterruptedException {
+        addSubCategoryButton.click();
+        Thread.sleep(3000);
+    }
+
+    public void selectingCategoryInSubCategory(String category) throws InterruptedException {
+        categoryNameInSubCategoryDropDownMenu.click();
+        for (WebElement categoryInSubCategory : categoriesInSubCategory) {
+            if (categoryInSubCategory.getText().equals(category)) {
+                categoryInSubCategory.click();
+                break;
+
+            }
+        }
+    }
+
+    public void addProductSubCategoryName(String subCategory) throws InterruptedException {
+        Thread.sleep(2000);
+        subCategoryName.sendKeys(subCategory);
+    }
+
+    public void validationOfAddedSubCategory(String expectedSubCategory) throws InterruptedException {
+        addSubCategoryButton.click();
+        Thread.sleep(2000);
+        String actualName = BrowserUtils.getText(addedSubCategoryName);
+        Assert.assertTrue("Sub Category is not matching", expectedSubCategory.equals(actualName));
+    }
+}
 
 
 
