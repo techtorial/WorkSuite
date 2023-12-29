@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/features",//feature files
+        features = "src/test/resources/features/api",//feature files
         glue = "", //step definitions
         dryRun = false,//getting snips without executing and updating test. 
         plugin = {"pretty","html:target/uiReport.html","rerun:target/uiFailedTests.txt"}
