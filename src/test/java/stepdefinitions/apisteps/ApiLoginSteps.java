@@ -27,6 +27,7 @@ public class ApiLoginSteps {
         // Convert the DataTable to a List of Maps
         List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
 
+
         // Iterate through the List of Maps and add form parameters
         for (Map<String, String> row : data) {
             request.formParam("email",row.get("email")).formParam("password",row.get("password"));
