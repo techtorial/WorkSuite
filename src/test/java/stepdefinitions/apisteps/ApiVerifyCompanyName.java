@@ -13,29 +13,36 @@ import java.util.List;
 import java.util.Map;
 
 public class ApiVerifyCompanyName {
-
     private Response response;
     private RequestSpecification request;
 
-    @Then("a GET request is made to {string} endpoint")
-    public void makeGetRequest(String endpoint) {
+    @Given("User has API endpoint {string} execute")
+    public void user_has_api_endpoint(String endpoint) {
         RestAssured.baseURI = endpoint;
         request = RestAssured.given().header("X-Requested-With", "XMLHttpRequest");
-        //response = (Response) RestAssured.get(baseUrl + endpoint);
-        response=request.get();
-        System.out.println(response);
     }
+    @When("User sends a GET request with the following details:")
+    public void user_sends_a_post_request_with_the_following_details(DataTable dataTable) {
+        // Convert the DataTable to a List of Maps
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
 
-    @Then("the API response is received")
-    public void verifyApiResponse() {
+
+        // Iterate through the List of Maps and add form parameters
+        for (Map<String, String> row : data) {
+            request.formParam("email",row.get("email")).formParam("password",row.get("password"));
+        }
+
+        response = request.get();
+    }
+    @Then("The API should respond with status code {int} execute")
+    public void the_api_should_respond_with_status_code(Integer expectedStatusCode) {
         int actualStatusCode = response.getStatusCode();
-        Assert.assertEquals(200, actualStatusCode);
+        Assert.assertTrue(actualStatusCode==expectedStatusCode);
     }
 
-    @Then("the company name in the response is {string}")
-    public void verifyCompanyName(String expectedCompanyName) {
-        String actualCompanyName=response.jsonPath().getString("data.user.company.company_name");
-        Assert.assertEquals(expectedCompanyName, actualCompanyName);
+    @Then("The response {string} should be {string} execute")
+    public void the_response_should_be(String path, String expected) {
+        String actual =response.jsonPath().getString(path);
+        Assert.assertEquals(expected,actual);
     }
-
 }
