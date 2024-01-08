@@ -8,8 +8,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.BrowserUtils;
 
-import java.util.Arrays;
-import java.util.List;
+
+import javax.naming.Name;
+import java.util.*;
+import java.util.logging.XMLFormatter;
 
 public class ClientPage {
 
@@ -17,6 +19,7 @@ public class ClientPage {
         PageFactory.initElements(driver, this);
     }
 
+    int defaultClientsCount;
     @FindBy(xpath = "//a[@title='Clients']")
     WebElement clientsButton;
 
@@ -60,17 +63,73 @@ public class ClientPage {
     List<WebElement> allClients;
 
 
-    public void clickClientsButtonAndAddClient() throws InterruptedException {
+    @FindBy(xpath = "(//h5)[1]")
+    WebElement firstClientName;
+  
+    @FindBy(xpath = "//input[@id='search-text-field']")
+    WebElement searchBox;
+
+    @FindBy(xpath = "//button[@id='reset-filters']")
+    WebElement clearButton;
+
+    @FindBy(xpath = "//td[4]")
+    List<WebElement> allEmails;
+
+    @FindBy(xpath = "//tr")
+    List<WebElement> clients;
+    @FindBy(xpath = "//button[@data-id='quick-action-type']")
+    WebElement actionButton;
+
+    @FindBy(xpath = "/html/body/div[1]/section/div[4]/div[2]/div/div[1]/div/table/tbody/tr[1]/td[1]/input")
+    WebElement checkBox;
+
+    @FindBy(xpath = "//span[contains(text(),'Delete')]")
+    WebElement deleteFromOption;
+
+    @FindBy(xpath = "//button[@id='quick-action-apply']")
+    WebElement applyButton;
+
+    @FindBy(xpath = "//button[contains(text(),'Yes, delete')]")
+    WebElement deleteConfirmationButton;
+
+
+    public void clickClientsButton() throws InterruptedException {
         clientsButton.click();
-        Thread.sleep(2000);
-        addClientButton.click();
         Thread.sleep(2000);
     }
 
-    public void clientInformation(String name, String email, String phone) throws InterruptedException {
-        clientName.sendKeys(name);
-        emailAddress.sendKeys(email);
-        phoneNumber.sendKeys(phone);
+    public void countInitialClients() {
+        defaultClientsCount = clients.size();
+        //System.out.println("Clients: "+defaultClientsCount);
+    }
+
+    @FindBy(xpath = "//li[@class=\"accordionItem closeIt\"]/a/span")
+    List<WebElement> homeMenuButton;
+
+    @FindBy(xpath = "//*[@id=\"table-actions\"]")
+    WebElement clientsOptions;
+
+
+
+    public void addClient(String clientOptions){
+        addClientButton.click();
+        if (clientsOptions.getText().equals(clientOptions)){
+            clientsOptions.click();
+        }
+    }
+
+
+    public void userInformation(io.cucumber.datatable.DataTable dataTable) throws InterruptedException {
+
+        List<Map<String, String>> userData = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> userDataMap : userData) {
+            Thread.sleep(2000);
+            clientName.sendKeys(userDataMap.get("Name"));
+            emailAddress.sendKeys(userDataMap.get("Email"));
+            phoneNumber.sendKeys(userDataMap.get("Phone number"));
+
+        }
+
     }
 
     public void countrySelection() throws InterruptedException {
@@ -81,13 +140,15 @@ public class ClientPage {
 
     }
 
-    public void companyInformation(String Name, String Website, String Phone, String Address, String ShippingAddress) {
-        companyName.sendKeys(Name);
-        companyWebsite.sendKeys(Website);
-        companyPhone.sendKeys(Phone);
-        companyAddress.sendKeys(Address);
-        shippingAddress.sendKeys(ShippingAddress);
-
+    public void companyInformation(io.cucumber.datatable.DataTable dataTable) {
+        List<Map<String, String>> companyData = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> companyDataMap : companyData) {
+            companyName.sendKeys(companyDataMap.get("Company name"));
+            companyWebsite.sendKeys(companyDataMap.get("Website"));
+            companyPhone.sendKeys(companyDataMap.get("Telephone number"));
+            companyAddress.sendKeys(companyDataMap.get("Address"));
+            shippingAddress.sendKeys(companyDataMap.get("Shipping address"));
+        }
     }
 
     public void clickingSaveButton() throws InterruptedException {
@@ -95,17 +156,58 @@ public class ClientPage {
         Thread.sleep(2000);
     }
 
-    public void clientName(String lastName) throws InterruptedException {
-        Thread.sleep(2000);
-        List<String> expectedInformation = Arrays.asList(lastName);
-        for (int i = 0; i < allClients.size(); i++) {
-            Thread.sleep(2000);
-            Assert.assertTrue(BrowserUtils.getText(allClients.get(i)), expectedInformation.contains("John" + " " + "Doe"));
 
-        }
+    public void validationOfNewClient(String expectedName) {
 
+    String actualName=BrowserUtils.getText(firstClientName);
+
+           Assert.assertTrue("Client name is not matching", expectedName.equals(actualName));
 
     }
 
+    public void removingClientFromTheList() throws InterruptedException {
+        checkBox.click();
+        actionButton.click();
+        Thread.sleep(2000);
+        deleteFromOption.click();
+        applyButton.click();
+        Thread.sleep(2000);
+        deleteConfirmationButton.click();
+    }
 
+    public void enterTextInSearchBox(String searchText) {
+        searchBox.sendKeys(searchText);
+    }
+
+    public void verifyName(String searchText) throws InterruptedException {
+        Thread.sleep(2000);
+        List<String> expectedInformation = Arrays.asList(searchText);
+        for (int i = 0; i < allClients.size(); i++) {
+            //System.out.println(BrowserUtils.getText(allClients.get(i)));
+            Thread.sleep(2000);
+            Assert.assertTrue(BrowserUtils.getText(allClients.get(i)), expectedInformation.contains(searchText));
+
+        }
+    }
+
+    public void verifyEmail(String searchText) throws InterruptedException {
+        Thread.sleep(2000);
+        List<String> expectedInformation = Arrays.asList(searchText);
+        for (int i = 0; i < allEmails.size(); i++) {
+            //System.out.println(BrowserUtils.getText(allEmails.get(i)));
+            Thread.sleep(2000);
+            Assert.assertTrue(BrowserUtils.getText(allEmails.get(i)), expectedInformation.contains(searchText));
+        }
+    }
+
+    public void clearSearchBox() {
+        clearButton.click();
+    }
+
+    public void verifyDefaultClients() {
+        assert clients.size() == defaultClientsCount : "Expected: " + defaultClientsCount + "  " + clients.size();
+    }
 }
+
+
+
