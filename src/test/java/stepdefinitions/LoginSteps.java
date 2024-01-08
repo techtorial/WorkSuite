@@ -1,5 +1,6 @@
 package stepdefinitions;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -8,8 +9,6 @@ import pages.login.LoginPage;
 import utils.DriverHelper;
 
 public class LoginSteps {
-
-
         WebDriver driver= DriverHelper.getDriver();
         LoginPage loginPage=new LoginPage(driver);
 
@@ -25,5 +24,12 @@ public class LoginSteps {
     public void the_user_validate_the_title(String title) {
         Assert.assertEquals(driver.getTitle(), title);
     }
-
+    @Then("verify {string} is visible on the page")
+    public void verify_is_visible_on_the_page(String buttonName) throws InterruptedException {
+        loginPage.verifyButtonName(buttonName);
+    }
+    @And("verify error message {string} in red")
+    public void verify_error_message(String message) {
+        loginPage.verifyMessage(message);
+    }
 }
