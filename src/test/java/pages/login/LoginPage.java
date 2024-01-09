@@ -1,9 +1,14 @@
 package pages.login;
 
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utils.BrowserUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class LoginPage {
 
@@ -20,11 +25,23 @@ public class LoginPage {
     @FindBy(id = "submit-login")
     WebElement submitButton;
 
-    public void login(String email, String password) {
+    @FindBy(xpath = "//div[@class='invalid-feedback']")
+    WebElement errorMessage;
 
+    public void login(String email, String password){
         this.email.sendKeys(email);
         this.password.sendKeys(password);
         submitButton.click();
     }
-
+    public void verifyButtonName(String buttonName) throws InterruptedException {
+        Assert.assertEquals(BrowserUtils.getText(submitButton), buttonName);
+    }
+    public void verifyMessage(String message) {
+        Assert.assertEquals(BrowserUtils.getText(errorMessage), message);
+        String color=errorMessage.getCssValue("color");
+        color=color.replace("rgba(","");
+        color=color.replace(")","");
+        String[] RGBA=color.split(",");
+        Assert.assertTrue(Integer.parseInt(RGBA[0])>210);
+    }
 }
