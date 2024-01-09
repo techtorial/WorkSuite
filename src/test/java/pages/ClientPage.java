@@ -1,11 +1,13 @@
 package pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import utils.BrowserUtils;
 
 
@@ -109,7 +111,15 @@ public class ClientPage {
     @FindBy(xpath = "//*[@id=\"table-actions\"]")
     WebElement clientsOptions;
 
+    @FindBy(xpath = "//td[2]")
+    List<WebElement> idSorting;
 
+    @FindBy(xpath = "//th[@class=\"sorting_asc\"]")
+    WebElement upArrow;
+
+    //@FindBy(xpath = "//thead/tr/th[2]")
+    @FindBy(xpath = "//th[contains(text(),'Id')]")
+    WebElement downArrow;
 
     public void addClient(String clientOptions){
         addClientButton.click();
@@ -206,6 +216,21 @@ public class ClientPage {
 
     public void verifyDefaultClients() {
         assert clients.size() == defaultClientsCount : "Expected: " + defaultClientsCount + "  " + clients.size();
+    }
+
+    public void clickUpDownArrow() throws InterruptedException {
+        downArrow.findElement(By.className("sorting_asc"));
+        System.out.println(downArrow.getText());
+    }
+
+    public void validateIdAscOrder() throws InterruptedException {
+        Thread.sleep(2000);
+        Boolean condition;
+        for (int i = 0; i < idSorting.size()-1; i++) {
+            //System.out.println(BrowserUtils.getText(idSorting.get(i)));
+            condition = Integer.parseInt(BrowserUtils.getText(idSorting.get(i))) >Integer.parseInt(BrowserUtils.getText(idSorting.get(i+1)));
+            Assert.assertTrue(condition);
+        }
     }
 }
 
