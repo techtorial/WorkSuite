@@ -21,8 +21,8 @@ public class ApiVerifyCompanyName {
         RestAssured.baseURI = endpoint;
         request = RestAssured.given().header("X-Requested-With", "XMLHttpRequest");
     }
-    @When("User sends a GET request with the following details:")
-    public void user_sends_a_post_request_with_the_following_details(DataTable dataTable) {
+    @When("User sends a GET request with the following details execute:")
+    public void user_sends_a_get_request_with_the_following_details(DataTable dataTable) {
         // Convert the DataTable to a List of Maps
         List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
 
