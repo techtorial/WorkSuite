@@ -19,4 +19,5 @@ public class ValidateOrderClientSteps {
     public void validateAllIDsAreListedInAscendingOrder() throws InterruptedException {
         clientPage.validateIdAscOrder();
     }
+
 }
