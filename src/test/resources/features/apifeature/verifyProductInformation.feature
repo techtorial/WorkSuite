@@ -13,5 +13,5 @@ Feature: Verify Product Information API Testing
     And User sets Content-type as "application/x-www-form-urlencoded"
     When User makes a GET request
     Then The API should respond with status code 200
-    And The response "data.id" should be "5"
-    And The response "data.name" should be "Rear Discharge Concrete Mixer"
+    And The response "data.id[0]" should be "5"
+    And The response "data.name[0]" should be "Rear Discharge Concrete Mixer"
