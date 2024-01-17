@@ -20,6 +20,11 @@ public class ApiLoginSteps {
     private RequestSpecification request;
     private String bearerToken;
 
+    String endpoint;
+    String productId;
+    String parameterName;
+    String parameterValue;
+
     @Given("User has API endpoint {string}")
     public void user_has_api_endpoint(String endpoint) {
         RestAssured.baseURI = endpoint;
@@ -84,4 +89,27 @@ public class ApiLoginSteps {
     public void user_makes_a_GET_request() {
         response = request.get();
     }
+
+    @And("User sets parameter name {string}")
+    public void userSetsParameterName(String parameterName) {
+        this.parameterName = parameterName;
+    }
+
+    @And("User sets parameter value {string}")
+    public void userSetsParameterValue(String parameterValue) {
+        this.parameterValue = parameterValue;
+    }
+
+    @And("User sets endpoint {string}")
+    public void userSetsEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    @Given("User has API endpoint")
+    public void userHasAPIEndpoint() {
+        endpoint += "/?"+parameterName+"="+ parameterValue;
+        RestAssured.baseURI = endpoint;
+        request = RestAssured.given().header("X-Requested-With", "XMLHttpRequest");
+    }
+
 }
