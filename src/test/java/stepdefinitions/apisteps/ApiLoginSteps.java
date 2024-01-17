@@ -20,10 +20,9 @@ public class ApiLoginSteps {
     private RequestSpecification request;
     private String bearerToken;
 
-    String endpoint;
-    String productId;
-    String parameterName;
-    String parameterValue;
+    private String endpoint;
+    private String parameterName;
+    private String parameterValue;
 
     @Given("User has API endpoint {string}")
     public void user_has_api_endpoint(String endpoint) {
