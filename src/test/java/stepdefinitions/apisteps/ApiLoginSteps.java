@@ -19,6 +19,7 @@ public class ApiLoginSteps {
     private Response response;
     private RequestSpecification request;
     private String bearerToken;
+    private String endpoint;
 
     @Given("User has API endpoint {string}")
     public void user_has_api_endpoint(String endpoint) {
@@ -80,8 +81,19 @@ public class ApiLoginSteps {
     public void userSetsContentTypeAsJSON() {
         request.contentType(ContentType.JSON);
     }
+
+    @And("User sets Content-type as {string}")
+    public void userSetsContentTypeAs(String contentType) {
+        request.contentType(contentType);
+    }
+
     @When("User makes a GET request")
     public void user_makes_a_GET_request() {
         response = request.get();
     }
+    @And("User sets endpoint {string}")
+    public void userSetsEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+}
 }
