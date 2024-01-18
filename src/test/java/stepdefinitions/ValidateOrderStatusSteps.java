@@ -26,4 +26,13 @@ public class ValidateOrderStatusSteps {
         orderPage.verifyStatus(dataTable);
     }
 
+    @When("the user clicks Export button")
+    public void theUserClicksExportButton() throws InterruptedException {
+        orderPage.clickExportButton();
+    }
+
+    @Then("Validate Excel file {string} downloaded in {string}")
+    public void validateExcelFileDownloadedIn(String fileName, String downloadPath) {
+        orderPage.validateExcelFileDownloaded(fileName, downloadPath);
+    }
 }

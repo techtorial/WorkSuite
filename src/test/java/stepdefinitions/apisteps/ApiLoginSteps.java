@@ -81,10 +81,12 @@ public class ApiLoginSteps {
     public void userSetsContentTypeAsJSON() {
         request.contentType(ContentType.JSON);
     }
+
     @And("User sets Content-type as {string}")
     public void userSetsContentTypeAs(String contentType) {
         request.contentType(contentType);
     }
+
     @When("User makes a GET request")
     public void user_makes_a_GET_request() {
         response = request.get();
@@ -93,4 +95,5 @@ public class ApiLoginSteps {
     public void userSetsEndpoint(String endpoint) {
         this.endpoint = endpoint;
     }
+}
 }
