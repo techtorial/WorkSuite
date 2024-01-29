@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features/apifeature",//feature files
         glue = "", //step definitions
         dryRun = false,//getting snips without executing and updating test. 
-        plugin = {"pretty","html:target/uiReport.html","rerun:target/uiFailedTests.txt"}
+        plugin = {"pretty","html:target/uiReport.html","rerun:target/uiFailedTests.txt","json:target/cucumber-report.json"}
 )
 public class CucumberTestRunner {
 
