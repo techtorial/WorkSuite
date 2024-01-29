@@ -21,7 +21,6 @@ public class ApiLoginSteps {
     private String bearerToken;
     private String endpoint;
 
-    private String endpoint;
     private String parameterName;
     private String parameterValue;
 
@@ -120,4 +119,4 @@ public class ApiLoginSteps {
     }
 
 }
-}
+
