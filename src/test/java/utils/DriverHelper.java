@@ -6,6 +6,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class DriverHelper {
 
     private static WebDriver driver;
@@ -20,9 +23,13 @@ public class DriverHelper {
             switch (browser){
 
                 case "chrome":
+                    String hubURL = "http://35.174.174.118:4444";
                     ChromeOptions options = new ChromeOptions();
-                    options.addArguments("--remote-allow-origins=*");
-                    driver = new ChromeDriver(options);
+                    try {
+                        driver = new RemoteWebDriver(new URL(hubURL),options);
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case "firefox":
                     driver = new FirefoxDriver();
