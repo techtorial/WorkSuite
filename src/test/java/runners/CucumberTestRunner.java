@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
         plugin = {"pretty","html:target/uiReport.html","rerun:target/uiFailedTests.txt","json:target/cucumber-report.json"}
 )
 public class CucumberTestRunner {
-
     // We must have maven installed in our computer.
     // we need to use mvn clean test
     // We need update our pom.xml file. We should add maven-surefire-plugin
