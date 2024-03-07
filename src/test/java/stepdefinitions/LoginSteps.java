@@ -16,6 +16,14 @@ public class LoginSteps {
     public void the_user_navigates_to_the(String url) {
         driver.navigate().to(url);
     }
+
+    @Then("the user enter cred")
+    public void the_user_enter_cred() {
+
+        loginPage.login("email", "password");
+    }
+
+
     @Then("the user enter email {string} password {string}")
     public void the_user_enter_email_password(String email, String password) {
         loginPage.login(email, password);
