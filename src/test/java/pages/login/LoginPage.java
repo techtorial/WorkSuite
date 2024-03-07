@@ -33,6 +33,10 @@ public class LoginPage {
         this.password.sendKeys(password);
         submitButton.click();
     }
+
+    public String getSubmitButtonText(){
+        return BrowserUtils.getText(submitButton);
+    }
     public void verifyButtonName(String buttonName) throws InterruptedException {
         Assert.assertEquals(BrowserUtils.getText(submitButton), buttonName);
     }
