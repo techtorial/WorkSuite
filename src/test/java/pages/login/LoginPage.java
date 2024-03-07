@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.BrowserUtils;
+import utils.ConfigReader;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,8 +30,8 @@ public class LoginPage {
     WebElement errorMessage;
 
     public void login(String email, String password){
-        this.email.sendKeys(email);
-        this.password.sendKeys(password);
+        this.email.sendKeys(ConfigReader.readProperty("employee_username"));
+        this.password.sendKeys(ConfigReader.readProperty("employee_password"));
         submitButton.click();
     }
 
