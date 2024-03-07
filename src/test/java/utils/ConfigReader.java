@@ -8,7 +8,7 @@ import java.util.Properties;
 public class ConfigReader {
 
     public static String readProperty(String key) {
-        File file = new File("config.properties");
+        File file = new File("/home/ec2-user/config.properties");
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(file));
