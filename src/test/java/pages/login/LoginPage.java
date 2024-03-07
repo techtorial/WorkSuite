@@ -30,8 +30,8 @@ public class LoginPage {
     WebElement errorMessage;
 
     public void login(String email, String password){
-        this.email.sendKeys(ConfigReader.readProperty("employee_username"));
-        this.password.sendKeys(ConfigReader.readProperty("employee_password"));
+        this.email.sendKeys(email);
+        this.password.sendKeys(password);
         submitButton.click();
     }
 
